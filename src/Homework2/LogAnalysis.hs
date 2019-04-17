@@ -1,12 +1,6 @@
-{-# LANGUAGE ViewPatterns #-}
 module Homework2.LogAnalysis where
 
-import Data.List
-
 import Homework2.Log
-
-parseTimestamp :: String -> (TimeStamp, String)
-parseTimestamp = error "unimplemented"
 
 -- |parseMessageWords parses list of words
 parseMessageWords :: [String] -> LogMessage
@@ -24,12 +18,42 @@ parseMessageWords x = Unknown (unwords x)
 -- |parseMessage parses an individual line from a log file
 parseMessage :: String -> LogMessage
 parseMessage = parseMessageWords . words
-{-
-parseMessage (stripPrefix "I " -> Just rest) = LogMessage Info time message
-    where (time, message) = parseTimestamp rest
-parseMessage s = Unknown s
--}
 
 -- |parse parses an entire log file at once and returns its contents
 parse :: String -> [LogMessage]
-parse s = error "not implemented"
+parse = (map parseMessage) . lines
+
+-- |insert inserts a new LogMessage into an existing MessageTree,
+-- producing a new MessageTree.
+insert :: LogMessage -> MessageTree -> MessageTree
+insert (Unknown _) x = x
+insert x Leaf = Node Leaf x Leaf
+insert x (Node _ (Unknown _) _) = Node Leaf x Leaf
+insert x y
+    | xTime > yTime = Node y x Leaf
+    | otherwise     = Node Leaf x y
+    where 
+        (LogMessage _ xTime _) = x
+        (Node _ (LogMessage _ yTime _) _) = y
+
+insertRev x y = insert y x
+
+build :: [LogMessage] -> MessageTree
+build = foldl insertRev Leaf
+
+inOrder :: MessageTree -> [LogMessage]
+inOrder Leaf = []
+inOrder (Node left msg right) = (inOrder left) ++ [msg] ++ (inOrder right)
+
+isRelevant :: LogMessage -> Bool
+isRelevant (LogMessage (Error lvl) ts msg)
+        | lvl >= 50 = True
+        | otherwise = False
+isRelevant _ = False
+
+getMessage :: LogMessage -> String
+getMessage (LogMessage _ _ msg) = msg
+getMessage (Unknown msg) = msg
+
+whatWentWrong :: [LogMessage] -> [String]
+whatWentWrong = (map getMessage) . inOrder . build . (filter isRelevant)
