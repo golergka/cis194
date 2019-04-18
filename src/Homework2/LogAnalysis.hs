@@ -1,5 +1,7 @@
 module Homework2.LogAnalysis where
 
+import Debug.Trace
+
 import Homework2.Log
 
 -- |parseMessageWords parses list of words
@@ -9,7 +11,7 @@ parseMessageWords (mType:(tsString:msg))
     | mType == "W" = LogMessage Warning ts (unwords msg)
     where
         ts = read tsString :: Int
-parseMessageWords ("E":(tsString:(errString:msg))) = LogMessage (Error err) ts (unwords msg)
+parseMessageWords ("E":(errString:(tsString:msg))) = LogMessage (Error err) ts (unwords msg)
     where
         ts = read tsString :: Int
         err = read errString :: Int
@@ -47,8 +49,8 @@ inOrder (Node left msg right) = (inOrder left) ++ [msg] ++ (inOrder right)
 
 isRelevant :: LogMessage -> Bool
 isRelevant (LogMessage (Error lvl) ts msg)
-        | lvl >= 50 = True
-        | otherwise = False
+    | lvl >= 50 = True
+    | otherwise = False
 isRelevant _ = False
 
 getMessage :: LogMessage -> String
