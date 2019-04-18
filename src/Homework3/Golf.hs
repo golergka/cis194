@@ -7,3 +7,9 @@ skipsN xs n = [fst i | i <- (zip xs [1..]), (mod (snd i) n) == 0]
 
 skips :: [a] -> [[a]]
 skips xs = map (skipsN xs) [1..(length xs)]
+
+localMaxima :: [Integer] -> [Integer]
+localMaxima (x:(y:(z:ws)))
+    | (y > x) && (y > z) = y:(localMaxima (z:ws))
+    | otherwise = localMaxima (y:(z:ws))
+localMaxima _ = []
