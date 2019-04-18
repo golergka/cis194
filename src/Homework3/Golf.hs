@@ -37,3 +37,6 @@ histCount xs = map ((flip histCountN) xs) [0..9]
 
 histogram :: [Int] -> String
 histogram = histDisplay . histCount
+
+histDisplayColumn :: Int -> [Int] -> String
+histDisplayColumn n xs = (take (histCountN n xs) (repeat '*')) ++ (repeat ' ')
