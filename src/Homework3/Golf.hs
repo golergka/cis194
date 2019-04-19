@@ -1,5 +1,6 @@
 module Homework3.Golf where
 
+import Data.List
 import Debug.Trace
 
 skipsN :: [a] -> Int -> [a]
@@ -38,5 +39,11 @@ histCount xs = map ((flip histCountN) xs) [0..9]
 histogram :: [Int] -> String
 histogram = histDisplay . histCount
 
-histDisplayColumn :: Int -> [Int] -> String
-histDisplayColumn n xs = (take (histCountN n xs) (repeat '*')) ++ (repeat ' ')
+histDisplayColumn :: [Int] -> Int -> String
+histDisplayColumn xs n = (show n) ++ "=" ++ (replicate (histCountN n xs) '*') ++ (repeat ' ')
+
+histDisplayLinesRev :: [Int] -> [String]
+histDisplayLinesRev xs = ((takeWhile nonEmpty) . transpose) (map (histDisplayColumn xs) [0..9])
+
+histogram2 :: [Int] -> String
+histogram2 = unlines . reverse . histDisplayLinesRev
