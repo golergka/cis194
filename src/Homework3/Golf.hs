@@ -27,23 +27,14 @@ histDisplayLegend x = (take x (['0'..])):(take x (repeat '=')):[]
 nonEmpty :: String -> Bool
 nonEmpty = any ((/=) ' ')
 
-histDisplay :: [Int] -> String
-histDisplay values = (unlines . reverse . ((++) (histDisplayLegend 10))) (takeWhile nonEmpty (histDisplayLines values))
-
 histCountN :: Int -> [Int] -> Int
-histCountN n = (length . filter ((==) n))
-
-histCount :: [Int] -> [Int]
-histCount xs = map ((flip histCountN) xs) [0..9]
-
-histogram :: [Int] -> String
-histogram = histDisplay . histCount
+histCountN n = length . filter ((==) n)
 
 histDisplayColumn :: [Int] -> Int -> String
-histDisplayColumn xs n = (show n) ++ "=" ++ (replicate (histCountN n xs) '*') ++ (repeat ' ')
+histDisplayColumn xs n = show n ++ "=" ++ replicate (histCountN n xs) '*' ++ repeat ' '
 
 histDisplayLinesRev :: [Int] -> [String]
-histDisplayLinesRev xs = ((takeWhile nonEmpty) . transpose) (map (histDisplayColumn xs) [0..9])
+histDisplayLinesRev xs = takeWhile nonEmpty $ transpose $ map (histDisplayColumn xs) [0..9]
 
-histogram2 :: [Int] -> String
-histogram2 = unlines . reverse . histDisplayLinesRev
+histogram :: [Int] -> String
+histogram = unlines . reverse . histDisplayLinesRev
