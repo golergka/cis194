@@ -15,15 +15,6 @@ localMaxima (x:(y:(z:ws)))
     | otherwise = localMaxima (y:(z:ws))
 localMaxima _ = []
 
-histDisplayRow :: Int -> [Int] -> String
-histDisplayRow row = map (\v -> if v >= row then '*' else ' ')
-
-histDisplayLines :: [Int] -> [String]
-histDisplayLines values = (map ((flip histDisplayRow) values) [1..])
-
-histDisplayLegend :: Int -> [String]
-histDisplayLegend x = (take x (['0'..])):(take x (repeat '=')):[]
-
 nonEmpty :: String -> Bool
 nonEmpty = any ((/=) ' ')
 
