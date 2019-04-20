@@ -6,6 +6,7 @@ import Homework3.Golf
 import Homework4
 import Homework5.Calc
 import Homework5.ExprT
+import Homework5.Parser
 
 main :: IO ()
 main = do
