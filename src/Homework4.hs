@@ -37,3 +37,12 @@ add (Node i l x r) y
 
 foldTree :: [a] -> Tree a
 foldTree = foldl add Leaf
+
+xor :: [Bool] -> Bool
+xor = foldl (/=) False
+
+makeMapFold :: (a -> b) -> [b] -> a -> [b]
+makeMapFold f xs y = (f y):xs
+
+map' :: (a -> b) -> [a] -> [b]
+map' f x = foldl (makeMapFold f) [] x
