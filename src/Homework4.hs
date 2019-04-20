@@ -1,5 +1,7 @@
 module Homework4 where
 
+import Data.List
+
 fun1 :: [Integer] -> Integer
 {-
 fun1 [] = 1
@@ -46,3 +48,10 @@ makeMapFold f xs y = (f y):xs
 
 map' :: (a -> b) -> [a] -> [b]
 map' f x = foldl (makeMapFold f) [] x
+
+sieveSundaramRem :: Integer -> [Integer]
+sieveSundaramRem n = [i + j + 2 * i * j | i <- [1..n], j <- [1..n], i <= j]
+
+-- |sieveSundaram should generate all the odd primes up to 2n + 2
+sieveSundaram :: Integer -> [Integer]
+sieveSundaram n = map (\x -> 2 * x + 1) $ [1..n] \\ sieveSundaramRem n
