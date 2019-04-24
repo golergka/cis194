@@ -7,6 +7,7 @@ import Homework4
 import Homework5.Calc
 import Homework5.ExprT
 import Homework5.Parser
+import Homework6.Fibonacci
 
 main :: IO ()
 main = do
