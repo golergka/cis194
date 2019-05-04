@@ -1,6 +1,6 @@
 -- CIS 194 Homework 2
 
-module Homework2.Log where
+module Log where
 
 import Control.Applicative
 

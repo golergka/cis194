@@ -1,8 +1,8 @@
-module Homework2.LogAnalysis where
+module LogAnalysis where
 
 import Debug.Trace
 
-import Homework2.Log
+import Log
 
 -- |parseMessageWords parses list of words
 parseMessageWords :: [String] -> LogMessage

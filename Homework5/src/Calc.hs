@@ -1,10 +1,10 @@
 {-# LANGUAGE FlexibleInstances #-}
-module Homework5.Calc where
+module Calc where
 
 import qualified Data.Map as M
 
-import Homework5.ExprT
-import Homework5.Parser
+import ExprT
+import Parser
 
 eval :: ExprT -> Integer
 eval (Lit x)    = x

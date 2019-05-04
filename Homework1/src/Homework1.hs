@@ -1,3 +1,5 @@
+module Homework1 where
+
 -- Excercise 1: We nede to find the digits of a number
 
 -- |toDigits converts positive Integers to a list of digits.

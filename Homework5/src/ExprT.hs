@@ -1,4 +1,4 @@
-module Homework5.ExprT where
+module ExprT where
 
 data ExprT = Lit Integer
            | Add ExprT ExprT

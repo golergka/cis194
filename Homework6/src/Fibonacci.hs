@@ -1,6 +1,6 @@
 {-# LANGUAGE FlexibleInstances #-}
 
-module Homework6.Fibonacci where
+module Fibonacci where
 
 import Data.List
 
