@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 283f7de130f0c3057fbe410dd023987ac85fab506943debe86efe10a9ce4ef37
+-- hash: a5a6e10d94cc5a4a39c6ec20b38942c1adfec7244018bf67a52d64604f97b304
 
 name:           cis194
 version:        0.1.0.0
@@ -17,7 +17,6 @@ executable cis194
   other-modules:
       Buffer
       Editor
-      Fibonacci
       Sized
       StringBuffer
       Paths_cis194
