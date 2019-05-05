@@ -20,3 +20,10 @@ moreFun = max
 
 treeFold :: b -> (a -> [b] -> b) -> Tree a -> b
 treeFold base f node = f (rootLabel node) (map (treeFold base f) (subForest node))
+
+-- |first guest list is a variant with a boss, second - without
+combineGLs :: Employee -> [(GuestList, GuestList)] -> (GuestList, GuestList)
+combineGLs boss combos = (maximum (map (glCons boss) allCombos), (maximum allCombos))
+  where
+    (combosW, combosWO) = unzip combos
+    allCombos = combosW ++ combosWO
