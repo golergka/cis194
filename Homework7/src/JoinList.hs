@@ -88,3 +88,5 @@ instance Buffer (JoinList (Score, Size) String) where
   numLines = getSize . size
 
   value x = getScore (fst (tag x))
+
+type ScoreStringBuffer = JoinList(Score, Size) String
