@@ -42,3 +42,6 @@ score 'x' = 8
 score 'y' = 4
 score 'z' = 10
 score x | isAsciiUpper x = score $ toLower x
+
+scoreString :: String -> Score
+scoreString x = mconcat (map score x)
