@@ -1,6 +1,7 @@
 module JoinList where
 
 import Sized
+import Scrabble
 
 data JoinList m a = Empty
                   | Single m a
@@ -61,3 +62,6 @@ instance Buffer SizeListBuffer where
     toString   = unlines . jlToList
     fromString = 
       -}
+
+scoreLine :: String -> JoinList Score String
+scoreLine x = Single (scoreString x) x
