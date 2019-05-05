@@ -1,0 +1,13 @@
+name: cis194
+version: 0.1.0.0
+homepage: https://github.com/golergka/cis194#readme
+license: BSD3
+build-type: Simple
+
+executable:
+  source-dirs: src
+  main: Main.hs
+  dependencies:
+    - base >= 4.7 && < 5
+    - containers
+    - mtl
