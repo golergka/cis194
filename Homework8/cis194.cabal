@@ -1,0 +1,27 @@
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.31.1.
+--
+-- see: https://github.com/sol/hpack
+--
+-- hash: 3c0511464f803187327e9c8a9c48ce1bb77307b619570101a1abd4e38e70608f
+
+name:           cis194
+version:        0.1.0.0
+homepage:       https://github.com/golergka/cis194#readme
+license:        BSD3
+build-type:     Simple
+
+executable cis194
+  main-is: Main.hs
+  other-modules:
+      Employee
+      Party
+      Paths_cis194
+  hs-source-dirs:
+      src
+  build-depends:
+      base >=4.7 && <5
+    , containers
+    , mtl
+  default-language: Haskell2010
