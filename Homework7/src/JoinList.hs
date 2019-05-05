@@ -15,6 +15,11 @@ tag (Append x _ _) = x
 (+++) :: Monoid m => JoinList m a -> JoinList m a -> JoinList m a
 (+++) x y = Append (tag x <> tag y) x y
 
+jlToList :: JoinList m a -> [a]
+jlToList Empty            = []
+jlToList (Single _ a)     = [a]
+jlToList (Append _ l1 l2) = jlToList l1 ++ jlToList l2
+
 type SizeList a = JoinList Size a
 
 indexJ :: Size -> SizeList a -> Maybe a
@@ -48,3 +53,11 @@ takeJ i (Append s a b)
   | otherwise = Append i a (takeJ (i - sizeA) b)
   where
     sizeA = tag a
+
+type SizeListBuffer = SizeList String
+
+{-
+instance Buffer SizeListBuffer where
+    toString   = unlines . jlToList
+    fromString = 
+      -}

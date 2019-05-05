@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: e819fc151057f40a7360d1712faceea0eedf12cdafa84fce991ec24129dbe99f
+-- hash: df79da00a791af06db20037c5048160624f3f77b6d8dac303f4801612b4f1a6f
 
 name:           cis194
 version:        0.1.0.0
@@ -18,6 +18,7 @@ executable cis194
       Buffer
       Editor
       JoinList
+      Scrabble
       Sized
       StringBuffer
       Paths_cis194
