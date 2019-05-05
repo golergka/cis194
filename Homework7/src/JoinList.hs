@@ -13,7 +13,8 @@ tag Empty          = mempty
 tag (Single x _)   = x
 tag (Append x _ _) = x
 
-(+++) :: Monoid m => JoinList m a -> JoinList m a -> JoinList m a
+(+++) :: Monoid m => 
+         JoinList m a -> JoinList m a -> JoinList m a
 (+++) x y = Append (tag x <> tag y) x y
 
 jlToList :: JoinList m a -> [a]
@@ -21,41 +22,44 @@ jlToList Empty            = []
 jlToList (Single _ a)     = [a]
 jlToList (Append _ l1 l2) = jlToList l1 ++ jlToList l2
 
-type SizeList a = JoinList Size a
+instance (Sized m, Monoid m) => Sized (JoinList m a) where
+  size = size . tag
 
-indexJ :: Size -> SizeList a -> Maybe a
+indexJ :: (Sized m, Monoid m) =>
+          Size -> JoinList m a -> Maybe a
 indexJ _ Empty            = Nothing
 indexJ i _ | i < 0        = Nothing
-indexJ i x | (tag x) <= i = Nothing
+indexJ i x | (size x) <= i = Nothing
 indexJ 0 (Single _ x)     = Just x
 indexJ i (Append _ a b)
   | sizeA > i = indexJ i a
   | otherwise = indexJ (i - sizeA) b
   where
-    sizeA = tag a
+    sizeA = size a
   
-dropJ :: Size -> SizeList a -> SizeList a
+dropJ :: (Sized m, Monoid m) =>
+         Size -> JoinList m a -> JoinList m a
 dropJ 0 x                = x
-dropJ i x | (tag x) <= i = Empty
+dropJ i x | (size x) <= i = Empty
 dropJ _ Empty            = Empty
 dropJ i (Append s a b)
-  | sizeA > i = Append sizeR (dropJ i a) b
-  | otherwise = Append sizeR a (dropJ (i - sizeA) b)
-  where
-    sizeR = s - i
-    sizeA = tag a
+  | size a > i = 
+      let l = dropJ i a
+        in Append ((tag l) <> (tag b)) l b
+  | otherwise = dropJ (i - (size a)) b
 
-takeJ :: Size -> SizeList a -> SizeList a
+takeJ :: (Sized m, Monoid m) =>
+         Size -> JoinList m a -> JoinList m a
 takeJ 0 x                = Empty
 takeJ _ Empty            = Empty
-takeJ i x | (tag x) <= i = x
+takeJ i x | (size x) <= i = x
 takeJ i (Append s a b)
-  | sizeA > i = takeJ i a
-  | otherwise = Append i a (takeJ (i - sizeA) b)
-  where
-    sizeA = tag a
+  | (size a) > i = takeJ i a
+  | otherwise =
+      let r = takeJ (i - (size a)) b
+        in Append ((tag a) <> (tag r)) a r
 
-type SizeListBuffer = SizeList String
+type SizeListBuffer = JoinList Size String
 
 {-
 instance Buffer SizeListBuffer where
