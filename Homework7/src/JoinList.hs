@@ -18,10 +18,10 @@ tag (Append x _ _) = x
 type SizeList a = JoinList Size a
 
 indexJ :: Size -> SizeList a -> Maybe a
-indexJ _ Empty                       = Nothing
-indexJ i _ | i < 0                   = Nothing
+indexJ _ Empty            = Nothing
+indexJ i _ | i < 0        = Nothing
 indexJ i x | (tag x) <= i = Nothing
-indexJ 0 (Single _ x)                = Just x
+indexJ 0 (Single _ x)     = Just x
 indexJ i (Append _ a b)
   | sizeA > i = indexJ i a
   | otherwise = indexJ (i - sizeA) b
@@ -29,12 +29,22 @@ indexJ i (Append _ a b)
     sizeA = tag a
   
 dropJ :: Size -> SizeList a -> SizeList a
-dropJ 0 x                           = x
+dropJ 0 x                = x
 dropJ i x | (tag x) <= i = Empty
-dropJ _ Empty                       = Empty
-dropJ _ (Single _ _)                = Empty
+dropJ _ Empty            = Empty
 dropJ i (Append s a b)
-  | sizeA > i = Append (s - i) (dropJ i a) b
-  | otherwise = Append (s - i) a (dropJ (i - sizeA) b)
+  | sizeA > i = Append sizeR (dropJ i a) b
+  | otherwise = Append sizeR a (dropJ (i - sizeA) b)
+  where
+    sizeR = s - i
+    sizeA = tag a
+
+takeJ :: Size -> SizeList a -> SizeList a
+takeJ 0 x                = Empty
+takeJ _ Empty            = Empty
+takeJ i x | (tag x) <= i = x
+takeJ i (Append s a b)
+  | sizeA > i = takeJ i a
+  | otherwise = Append i a (takeJ (i - sizeA) b)
   where
     sizeA = tag a
