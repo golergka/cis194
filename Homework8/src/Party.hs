@@ -2,6 +2,7 @@ module Party where
 
 import Data.Monoid
 import Data.Semigroup
+import Data.Tree
 
 import Employee
 
@@ -16,3 +17,6 @@ instance Monoid GuestList where
 
 moreFun :: GuestList -> GuestList -> GuestList
 moreFun = max
+
+treeFold :: b -> (a -> [b] -> b) -> Tree a -> b
+treeFold base f node = f (rootLabel node) (map (treeFold base f) (subForest node))
