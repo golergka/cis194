@@ -8,6 +8,9 @@ import Data.Char
 newtype Score = Score Int
   deriving (Eq, Ord, Show, Num)
 
+getScore :: Score -> Int
+getScore (Score i) = i
+
 instance Semigroup Score where
   (<>) = (+)
 
