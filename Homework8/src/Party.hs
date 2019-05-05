@@ -18,12 +18,19 @@ instance Monoid GuestList where
 moreFun :: GuestList -> GuestList -> GuestList
 moreFun = max
 
-treeFold :: b -> (a -> [b] -> b) -> Tree a -> b
-treeFold base f node = f (rootLabel node) (map (treeFold base f) (subForest node))
+treeFold :: (a -> [b] -> b) -> Tree a -> b
+treeFold f node = f (rootLabel node) (map (treeFold f) (subForest node))
 
 -- |first guest list is a variant with a boss, second - without
 combineGLs :: Employee -> [(GuestList, GuestList)] -> (GuestList, GuestList)
+combineGLs boss []     = (glCons boss base, base)
+  where
+    base = GL [] 0
 combineGLs boss combos = (maximum (map (glCons boss) allCombos), (maximum allCombos))
   where
     (combosW, combosWO) = unzip combos
     allCombos = combosW ++ combosWO
+
+maxFun :: Tree Employee -> GuestList
+maxFun company = max a b
+  where (a, b) = treeFold combineGLs company
