@@ -12,11 +12,12 @@ import Control.Applicative
 ------------------------------------------------------------
 
 zeroOrMore :: Parser a -> Parser [a]
-zeroOrMore p = ((:) <$> p <*> (zeroOrMore p)) <|> ([] <$ satisfy (const True))
+-- zeroOrMore p = ((:) <$> p <*> (zeroOrMore p)) <|> pure []
+zeroOrMore = many
     
 
 oneOrMore :: Parser a -> Parser [a]
-oneOrMore p = undefined
+oneOrMore = some
 
 ------------------------------------------------------------
 --  2. Utilities
