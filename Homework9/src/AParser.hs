@@ -77,3 +77,7 @@ abParser = (,) <$> (char 'a') <*> (char 'b')
 
 abParser_ :: Parser ()
 abParser_ = (const $ const ()) <$> (char 'a') <*> (char 'b')
+
+-- |intPair should parse two integers, separated by a single space, into a list [x, y]
+intPair :: Parser [Integer]
+intPair = ((\i j -> [i,j]) <$> ((\i -> const i) <$> posInt <*> char ' ') <*> posInt)
