@@ -88,3 +88,12 @@ instance Alternative Parser where
   p1 <|> p2 = Parser f
     where
       f input = (runParser p1 input) <|> (runParser p2 input)
+
+int :: Parser ()
+int = (const ()) <$> posInt
+
+upper :: Parser ()
+upper = (const ()) <$> (satisfy (isUpper))
+
+intOrUppercase :: Parser()
+intOrUppercase = int <|> upper
