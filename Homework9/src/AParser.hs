@@ -71,3 +71,9 @@ instance Applicative Parser where
     (f :: a -> b, s') <- runParser p1 s;
     (w :: a, s'') <- runParser p2 s';
     return (f w, s'')
+
+abParser :: Parser (Char, Char)
+abParser = (,) <$> (char 'a') <*> (char 'b')
+
+abParser_ :: Parser ()
+abParser_ = (const $ const ()) <$> (char 'a') <*> (char 'b')
