@@ -29,7 +29,7 @@ spaces :: Parser String
 spaces = zeroOrMore $ satisfy isSpace
 
 ident :: Parser String
-ident = undefined
+ident = (:) <$> satisfy isAlpha <*> (zeroOrMore $ satisfy isAlphaNum)
 
 ------------------------------------------------------------
 --  3. Parsing S-expressions
