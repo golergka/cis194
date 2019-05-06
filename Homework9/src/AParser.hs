@@ -1,3 +1,4 @@
+{-# LANGUAGE ScopedTypeVariables #-}
 {- CIS 194 HW 10
    due Monday, 1 April
 -}
@@ -66,10 +67,7 @@ instance Functor Parser where
 
 instance Applicative Parser where
   pure a = Parser (const (Just (a, "")))
-  -- (<*>) :: Parser (a -> b) -> Parser a -> Parser b
-  (<*>) p1 p2 = Parser f
-    where
-      -- f :: String -> Maybe (c, String)
-      f x = runParser p1 x >>= runP2
-      -- runP2 :: (a -> b, String) -> Maybe (b, String) 
-      runP2 (f, input) = fmap (first f) (runParser p2 input)
+  p1 <*> p2 = Parser $ \s -> do
+    (f :: a -> b, s') <- runParser p1 s;
+    (w :: a, s'') <- runParser p2 s';
+    return (f w, s'')
