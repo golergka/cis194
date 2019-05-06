@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 13f17f5152eaa55e89f8700a624a307d1d91c553b581a5c21f1a10391c786eb3
+-- hash: 505c2c97ddac80eac4790f923abf04b437591a8bc0df0fe0f0fdb3b6dfe914a9
 
 name:           cis194
 version:        0.1.0.0
@@ -16,6 +16,7 @@ executable cis194
   main-is: Main.hs
   other-modules:
       AParser
+      SExpr
       Paths_cis194
   hs-source-dirs:
       src

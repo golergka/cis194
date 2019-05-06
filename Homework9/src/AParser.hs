@@ -76,7 +76,7 @@ abParser :: Parser (Char, Char)
 abParser = (,) <$> (char 'a') <*> (char 'b')
 
 abParser_ :: Parser ()
-abParser_ = (const $ const ()) <$> (char 'a') <*> (char 'b')
+abParser_ = (const ()) <$ (char 'a') <*> (char 'b')
 
 -- |intPair should parse two integers, separated by a single space, into a list [x, y]
 intPair :: Parser [Integer]
@@ -90,10 +90,10 @@ instance Alternative Parser where
       f input = (runParser p1 input) <|> (runParser p2 input)
 
 int :: Parser ()
-int = (const ()) <$> posInt
+int = () <$ posInt
 
 upper :: Parser ()
-upper = (const ()) <$> (satisfy (isUpper))
+upper = () <$ (satisfy (isUpper))
 
 intOrUppercase :: Parser()
 intOrUppercase = int <|> upper
