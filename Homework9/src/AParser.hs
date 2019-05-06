@@ -71,7 +71,7 @@ instance Applicative Parser where
     (f :: a -> b, s') <- runParser p1 s;
     (w :: a, s'') <- runParser p2 s';
     return (f w, s'')
-
+  
 abParser :: Parser (Char, Char)
 abParser = (,) <$> (char 'a') <*> (char 'b')
 
@@ -80,4 +80,11 @@ abParser_ = (const $ const ()) <$> (char 'a') <*> (char 'b')
 
 -- |intPair should parse two integers, separated by a single space, into a list [x, y]
 intPair :: Parser [Integer]
-intPair = ((\i j -> [i,j]) <$> ((\i -> const i) <$> posInt <*> char ' ') <*> posInt)
+-- intPair = ((\i j -> [i,j]) <$> ((\i -> const i) <$> posInt <*> char ' ') <*> posInt)
+intPair = (\i j -> [i, j]) <$> (posInt <* char ' ') <*> posInt
+
+instance Alternative Parser where
+  empty = Parser (const Nothing)
+  p1 <|> p2 = Parser f
+    where
+      f input = (runParser p1 input) <|> (runParser p2 input)
