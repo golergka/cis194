@@ -63,3 +63,13 @@ first f x = ((f $ fst x), (snd x))
 
 instance Functor Parser where
   fmap f (Parser p) = Parser (fmap (first f) . p)
+
+instance Applicative Parser where
+  pure a = Parser (const (Just (a, "")))
+  -- (<*>) :: Parser (a -> b) -> Parser a -> Parser b
+  (<*>) p1 p2 = Parser f
+    where
+      -- f :: String -> Maybe (c, String)
+      f x = (>>=) (runParser p1 x) (runP2 p2)
+      -- runP2 :: Parser d -> (d -> e, String) -> Maybe (e, String) 
+      runP2 parser (f, input) = fmap (first f) (runParser parser input)
