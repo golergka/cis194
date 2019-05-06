@@ -12,7 +12,8 @@ import Control.Applicative
 ------------------------------------------------------------
 
 zeroOrMore :: Parser a -> Parser [a]
-zeroOrMore p = undefined
+zeroOrMore p = ((:) <$> p <*> (zeroOrMore p)) <|> ([] <$ satisfy (const True))
+    
 
 oneOrMore :: Parser a -> Parser [a]
 oneOrMore p = undefined
