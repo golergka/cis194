@@ -4,8 +4,10 @@
 
 module SExpr where
 
-import AParser
 import Control.Applicative
+import Data.Char
+
+import AParser
 
 ------------------------------------------------------------
 --  1. Parsing repetitions
@@ -24,7 +26,7 @@ oneOrMore = some
 ------------------------------------------------------------
 
 spaces :: Parser String
-spaces = undefined
+spaces = zeroOrMore $ satisfy isSpace
 
 ident :: Parser String
 ident = undefined
