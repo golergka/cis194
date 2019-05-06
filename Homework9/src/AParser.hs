@@ -70,6 +70,6 @@ instance Applicative Parser where
   (<*>) p1 p2 = Parser f
     where
       -- f :: String -> Maybe (c, String)
-      f x = (>>=) (runParser p1 x) (runP2 p2)
-      -- runP2 :: Parser d -> (d -> e, String) -> Maybe (e, String) 
-      runP2 parser (f, input) = fmap (first f) (runParser parser input)
+      f x = runParser p1 x >>= runP2
+      -- runP2 :: (a -> b, String) -> Maybe (b, String) 
+      runP2 (f, input) = fmap (first f) (runParser p2 input)
